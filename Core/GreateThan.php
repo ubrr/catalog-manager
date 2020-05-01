@@ -7,13 +7,19 @@ use UBRR\RefPoint\Core\ConditionField;
 
 class GreateThan implements Condition
 {
+    private ConditionField $conditionField;
+
     function __construct(ConditionField $conditionField)
     {
+        $this->conditionField = $conditionField;
     }
-    public function getField()
-    {
-    }
+
     public function getValue()
     {
+        return $this->conditionField;
+    }
+    public function getType()
+    {
+        return self::GREATETHAN;
     }
 }

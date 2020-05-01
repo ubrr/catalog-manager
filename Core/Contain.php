@@ -2,21 +2,23 @@
 
 namespace UBRR\RefPoint\Core;
 
-use RefPoint\Core\ConditionField as ConditionField;
+use UBRR\RefPoint\Core\ConditionField;
 
 class Contain implements Condition
 {
-    function __construct()
+    private ConditionField $conditionField;
+
+    function __construct(ConditionField $conditionField)
     {
+        $this->conditionField = $conditionField;
     }
 
-    function getType()
+    public function getValue()
     {
-        
+        return $this->conditionField;
     }
-
-    function getValue()
+    public function getType()
     {
-        
+        return self::CONTAIN;
     }
 }

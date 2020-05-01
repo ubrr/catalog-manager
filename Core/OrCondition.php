@@ -6,7 +6,7 @@ use UBRR\RefPoint\Core\ConditionField;
 
 class OrCondition implements Condition
 {
-    function __construct()
+    function __construct(array Condition)
     {
     }
     public function getField()
