@@ -1,5 +1,11 @@
 {
-    "require": {
+    "autoload": {
+        "psr-4": {
+            "UBRR\\RefPoint\\Core\\": "Core/",
+            "UBRR\\RefPoint\\PassportReference\\": "PassportReference/"
+        }
+    },
+    "require-dev": {
         "phpunit/phpunit": "^9.1"
     }
 }
