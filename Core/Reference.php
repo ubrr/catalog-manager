@@ -8,5 +8,6 @@ interface Reference
     public function filter();
     public function remove($name);
     public function search(Condition $Condition, int $page, int $pageSize);
+    public function informUsers(Message)
 }
 

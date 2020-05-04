@@ -2,10 +2,10 @@
 
 namespace UBRR\RefPoint\PassportReference;
 
-interface PassportReference
+interface PassportRepository
 {
-    public function add();
-    public function remove();
-    public function update();
+    public function add(PassportRecord $passportRecord);
+    public function remove(PassportRecord $passportRecord);
+    public function update(PassportRecord $passportRecord);
     public function searchBySeriesAndNumber(string $series,string $number);
 }
