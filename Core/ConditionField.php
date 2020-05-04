@@ -12,7 +12,7 @@ class ConditionField
         $this->value = $value;
     }
 
-    public function getField()
+    public function getField(): string
     {
         return $this->name;
     }
