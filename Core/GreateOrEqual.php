@@ -17,7 +17,7 @@ class GreateOrEqual implements Condition
     {
         return $this->conditionField;
     }
-    public function getType()
+    public function getType(): string
     {
         return self::GREATEOREQUAL;
     }

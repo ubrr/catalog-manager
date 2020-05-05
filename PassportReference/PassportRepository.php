@@ -8,4 +8,5 @@ interface PassportRepository
     public function remove(PassportRecord $passportRecord);
     public function update(PassportRecord $passportRecord);
     public function searchBySeriesAndNumber(string $series,string $number);
+    public function getData();
 }

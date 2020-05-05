@@ -5,8 +5,8 @@ namespace UBRR\RefPoint\Core;
 class Record
 {
     private string $id = '';
-    private array $data = array();
-    function __construct(string $id, array $data)
+    private string $data = '';
+    function __construct(string $id, string $data)
     {
         $this->id = $id;
         $this->data = $data;

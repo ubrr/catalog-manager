@@ -1,7 +1,7 @@
 <?php
 
 namespace UBRR\RefPoint\Core;
-
+use UBRR\RefPoint\PassportReference\PassportRecord;
 class Message
 {
     public string $action;

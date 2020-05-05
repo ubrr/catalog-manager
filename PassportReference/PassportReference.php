@@ -3,39 +3,49 @@
 namespace UBRR\RefPoint\PassportReference;
 
 use UBRR\RefPoint\Core\Message;
-use UBRR\RefPoint\Core\RecordRefPoint\Core\Reference;
+use UBRR\RefPoint\Core\Record;
+use UBRR\RefPoint\Core\Reference;
 
 class PassportReference implements Reference
 {
-    private PassportRepository $repository;
+    public PassportRepository $repository;
     private array $users;
 
-     function filter()
+    function __construct()
+    {
+        $this->repository = new Repository();
+    }
+
+    function filter()
     {
     }
 
-    function add(PassportRecord $passportRecord)
+    function add($record)
     {
-        $this->informUsers(new Message($this, $passportRecord,"add"));
+        #тут должен передаваться record
+        $this->repository->add(new PassportRecord('12', '12', '12'));
+        // $this->informUsers(new Message($this, $record, "add"));
     }
 
-    function remove(PassportRecord $passportRecord)
+    function remove($record)
     {
-        $this->informUsers(new Message($this, $passportRecord,"remove"));
+        $this->repository->remove(new PassportRecord('12', '12', '12'));
+        $this->informUsers(new Message($this, $record, "remove"));
     }
-    function update(PassportRecord $passportRecord)
+    function update($record)
     {
-        $this->informUsers(new Message($this, $passportRecord,"upadte"));
+        $this->repository->update(new PassportRecord('12', '12', '12'));
+        $this->informUsers(new Message($this, $record, "upadte"));
     }
 
     function search($сondition, $page, $pageSize)
     {
     }
-    
+
     function informUsers(Message $message)
     {
-        foreach ($this->users as &$user){
-            $user="message";
+        foreach ($this->users as &$user) {
+            $user = "message";
         }
     }
 }

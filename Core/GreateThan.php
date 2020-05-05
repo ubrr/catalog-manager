@@ -18,7 +18,7 @@ class GreateThan implements Condition
     {
         return $this->conditionField;
     }
-    public function getType()
+    public function getType(): string
     {
         return self::GREATETHAN;
     }

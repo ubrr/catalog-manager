@@ -17,7 +17,7 @@ class LessThan implements Condition
     {
         return $this->conditionField;
     }
-    public function getType()
+    public function getType(): string
     {
         return self::LESSTHAN;
     }
