@@ -6,26 +6,27 @@ use UBRR\RefPoint\PassportReference\PassportRecord;
 use \UBRR\RefPoint\PassportReference\PassportReference;
 use UBRR\RefPoint\PassportReference\Repository;
 
-class PassportReferenceTest extends TestCase
+
+class PassportReferenceTest extends  TestCase
 {
 
     public function testAdd()
     {
-        $pr = new Record('12', '12');
+        $r = new Record('12', array('series' => 12, 'number' => 12));
+        $pr = new PassportRecord('12', '12', '12');
         $obj = new PassportReference();
-        $obj->add($pr);
+        $obj->add($r);
         $this->assertEquals($pr, $obj->repository->getData()[0]);
     }
-    // public function testRemove()
-    // {
-    //     $pr=new Record('12', array(10,1));
-    //     $pr1=new Record('13', array(10,1,1));
-    //     $obj = new PassportReference();
-    //     $obj->add($pr);
-    //     $obj->add($pr1);
-    //     $obj->remove($pr);
-    //     $this->assertEquals($pr, $obj->repository->getData() );
-    // }
+    public function testRemove()
+    {
+        $r = new Record('12', array('series' => 12, 'number' => 12));
+        $pr = new PassportRecord('12', '12', '12');
+        $obj = new PassportReference();
+        $obj->add($r);
+        $obj->remove($r);
+        $this->assertEquals(0,count($obj->repository->getData()));
+    }
     // public function testSearch()
     // {
 

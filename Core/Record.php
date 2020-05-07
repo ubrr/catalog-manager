@@ -5,13 +5,13 @@ namespace UBRR\RefPoint\Core;
 class Record
 {
     private string $id = '';
-    private string $data = '';
-    function __construct(string $id, string $data)
+    private array $data = array();
+    function __construct(string $id, array $data)
     {
         $this->id = $id;
         $this->data = $data;
     }
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }

@@ -22,16 +22,20 @@ class PassportReference implements Reference
 
     function add($record)
     {
-        #тут должен передаваться record
-        $this->repository->add(new PassportRecord('12', '12', '12'));
+        $id=$record->getId();
+        $data=$record->getData();
+        $this->repository->add(new PassportRecord($id, $data['series'], $data['number']));
         // $this->informUsers(new Message($this, $record, "add"));
     }
 
     function remove($record)
     {
-        $this->repository->remove(new PassportRecord('12', '12', '12'));
-        $this->informUsers(new Message($this, $record, "remove"));
+        $id=$record->getId();
+        $data=$record->getData();
+        $this->repository->remove(new PassportRecord($id, $data['series'], $data['number']));
+        // $this->informUsers(new Message($this, $record, "remove"));
     }
+
     function update($record)
     {
         $this->repository->update(new PassportRecord('12', '12', '12'));
@@ -40,6 +44,7 @@ class PassportReference implements Reference
 
     function search($сondition, $page, $pageSize)
     {
+        
     }
 
     function informUsers(Message $message)
