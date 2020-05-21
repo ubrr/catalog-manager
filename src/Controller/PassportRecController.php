@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PassportRecController extends AbstractController
 {
     /**
-     * @Route("/passportrec/create", name="create_record")
+     * @Route("api/passportrec/create", name="create_record")
      */
     public function createRecord(): Response
     {
@@ -24,7 +24,7 @@ class PassportRecController extends AbstractController
     }
 
     /**
-     * @Route("/passportrec/{id}", name="get_record")
+     * @Route("api/passportrec/{id}", name="get_record")
      */
     public function getRecord($id)
     {
@@ -42,7 +42,7 @@ class PassportRecController extends AbstractController
     }
 
     /**
-     * @Route("/passportrec/delete/{id}", name="delete_record")
+     * @Route("api/passportrec/delete/{id}", name="delete_record")
      */
     public function deleteRecord($id)
     {
@@ -65,7 +65,7 @@ class PassportRecController extends AbstractController
     }
 
     /**
-     * @Route("/passportrec/update/{id}", name="update_record")
+     * @Route("api/passportrec/update/{id}", name="update_record")
      */
     public function updateRecord($id)
     {
@@ -85,4 +85,18 @@ class PassportRecController extends AbstractController
             'id' => $record->getId()
             ]);
     }
+    // public function searchBySeries($series)
+    // {
+    //     $record = $this->getDoctrine()
+    //     ->getRepository(PassportRecord::class)
+    //     ->searchBySeriesAndNumber($series);
+
+    // if (!$record) {
+    //     throw $this->createNotFoundException(
+    //         'No product found for id ' . $series
+    //     );
+    // }
+
+    // return new Response('Check out this great product: ' . $record);
+    // }
 }

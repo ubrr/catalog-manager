@@ -1,0 +1,22 @@
+# Doctrine.Tests.ORM.Mapping.User.dcm.yml
+Doctrine\Tests\ORM\Mapping\PassportRecord:
+  type: entity
+  repositoryClass: Doctrine\Tests\ORM\Mapping\PassportRecordRepository
+  table: rpudb
+  schema: public 
+  readOnly: false
+  indexes:
+    name_index:
+      columns: [ id ]
+  id:
+    id:
+      type: string
+      generator:
+        strategy: AUTO
+  fields:
+    number:
+      type: string
+      length: 50
+    series:
+      type: string
+      length: 50

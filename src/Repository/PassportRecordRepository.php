@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @method PassportRecord|null searchBySeriesAndNumber($series, $lockMode = null, $lockVersion = null)
  * @method PassportRecord|null find($id, $lockMode = null, $lockVersion = null)
  * @method PassportRecord|null findOneBy(array $criteria, array $orderBy = null)
  * @method PassportRecord[]    findAll()
@@ -47,4 +48,13 @@ class PassportRecordRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function searchBySeriesAndNumber($series): ?PassportRecord
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.series = :val')
+            ->setParameter('val', $series)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
