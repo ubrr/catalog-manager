@@ -60,7 +60,7 @@ class PassportRecController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($record);
         $entityManager->flush();
-
+ 
         return new Response('Deleted: ' . $id);
     }
 
