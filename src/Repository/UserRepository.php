@@ -39,14 +39,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //     // returns an array of Product objects
     //     return $query->getResult();
     // }
-    public function findOneBySomeField($value): ?User
+    public function findOneByEmail($email): ?User
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.email = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\User p
+            WHERE p.email = :email'
+        )->setParameter('email', $email);
+
+
+        return $query->getResult();
+
+        // return $this->createQueryBuilder('u')
+        //     ->andWhere('u.email = :val')
+        //     ->setParameter('val', $value)
+        //     ->getQuery()
+        //     ->getOneOrNullResult()
+        // ;
     }
 
     /**

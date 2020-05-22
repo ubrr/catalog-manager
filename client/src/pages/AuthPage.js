@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useHttp } from "../hooks/http.hook";
 
+import { AuthCard } from "../components/AuthCard";
+import { Box } from "rebass";
+
 export const AuthPage = () => {
   const { request } = useHttp();
   const [form, setForm] = useState({
@@ -10,46 +13,28 @@ export const AuthPage = () => {
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
-    
   };
 
-  const registerHandler = async (event) => {
-    event.preventDefault()
+  const registerHandler = async () => {
     try {
       const data = await request("/api/auth/register", "POST", { ...form });
-      console.log('data=',data);
+      console.log("data=", data);
     } catch (error) {}
+  };
+  const loginHandler = async () => {
+    console.log("loginHANDLER")
   };
 
   return (
-    <div>
-      <form style={{ paddingTop: "30px", margin: "auto", width: "200px" }}>
-        <label>
-          Email:
-          <input
-            style={{ paddingLeft: "10px" }}
-            type="text"
-            name="email"
-            onChange={changeHandler}
-          />
-        </label>
-
-        <label>
-          Пароль:
-          <input
-            style={{ paddingLeft: "10px" }}
-            name="password"
-            type="password"
-            onChange={changeHandler}
-          />
-        </label>
-        <input
-          style={{ marginTop: "10px" }}
-          type="submit"
-          value="Отправить"
-          onClick={registerHandler}
-        />
-      </form>
-    </div>
+    <Box
+      sx={{
+        py: 3,
+        maxWidth: "50%",
+        mx: "auto",
+        px: 3,
+      }}
+    >
+      <AuthCard changeHandler={changeHandler} loginHandler={loginHandler} registerHandler={registerHandler}/>
+    </Box>
   );
 };

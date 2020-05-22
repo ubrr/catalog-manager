@@ -16,18 +16,20 @@ class AuthController extends AbstractController
      */
     public function register(Request $request)
     {   
-        $body = json_decode($request->getContent(), true);
+        $body = $request->request->all();
+        // $body = json_decode($request, true);
         // $userEmail=$body["email"];
         // $repository =  $this->getDoctrine()
-        //     ->getRepository(UserRepository::class);
+        //     ->getRepository(User::class)
+        //     ->findOneByEmail($userEmail);
         
-            
-        print_r($body["email"]);
+        
+        print_r($body);
         $response = new Response();
-        $response->setContent(json_encode([
-            'data' => $body
-        ]));
-        $response->headers->set('Content-Type', 'application/json');
+        // $response->setContent(json_encode([
+        //     'data' => $request
+        // ]));
+        // $response->headers->set('Content-Type', 'application/json');
         return $response;
         
     }
