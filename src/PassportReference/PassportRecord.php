@@ -10,7 +10,7 @@ class PassportRecord
     private string $number;
     private string $id;
 
-    function __construct(string $series, string $number, string $id)
+    function __construct(string $series, string $number, string $id = '')
     {
         $this->series = $series;
         $this->number = $number;

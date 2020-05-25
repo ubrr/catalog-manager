@@ -55,4 +55,11 @@ class PassportRecord
 
         return $this;
     }
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }

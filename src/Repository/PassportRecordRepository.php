@@ -5,56 +5,62 @@ namespace App\Repository;
 use App\Entity\PassportRecord;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use UBRR\RefPoint\PassportReference\PassportRepository;
+use UBRR\RefPoint\PassportReference\PassportRecord as PassportModel;
 
 /**
- * @method PassportRecord|null searchBySeriesAndNumber($series, $lockMode = null, $lockVersion = null)
  * @method PassportRecord|null find($id, $lockMode = null, $lockVersion = null)
  * @method PassportRecord|null findOneBy(array $criteria, array $orderBy = null)
  * @method PassportRecord[]    findAll()
  * @method PassportRecord[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PassportRecordRepository extends ServiceEntityRepository
+class PassportRecordRepository extends ServiceEntityRepository implements PassportRepository
 {
+    private $mapper;
+
     public function __construct(ManagerRegistry $registry)
     {
+        $this->mapper = new PassportRecordMapper();
         parent::__construct($registry, PassportRecord::class);
     }
 
-    // /**
-    //  * @return PassportRecord[] Returns an array of PassportRecord objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?PassportRecord
+    public function add(PassportModel $passportRecord)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->getEntityManager()->persist($this->mapper->toRecord($passportRecord));
     }
-    */
-    public function searchBySeriesAndNumber($series): ?PassportRecord
+
+    public function getById($id): ?PassportModel
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.series = :val')
-            ->setParameter('val', $series)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $record = $this->getDoctrine()
+            ->getRepository(PassportRecord::class)
+            ->find($id);
+        return $record ? $this->mapper->toModel($record) : null;
+    }
+
+    public function remove(PassportModel $passportRecord)
+    {
+        $this->getEntityManager()->remove($this->mapper->toRecord($passportRecord));
+    }
+
+    public function update(PassportModel $passportRecord)
+    {
+        $this->getEntityManager()->persist($this->mapper->toRecord($passportRecord));
+    }
+
+    public function searchBySeriesAndNumber(string $series, string $number): ?PassportModel
+    {
+        $dql = "SELECT u FROM App\Entity\PassportRecord WHERE series=?1 AND number=?2";
+        $record = $this->getEntityManager()->createQuery($dql)
+            ->setParameter(1, $series)
+            ->setParameter(2, $number)
+            ->setMaxResults(1)
+            ->getFirstResult();
+        return $record ? $this->mapper->toModel($record) : null;
+    }
+
+    public function getData(): array
+    {
+        // TODO: Implement getData() method.
     }
 }

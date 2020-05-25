@@ -8,12 +8,12 @@ use UBRR\RefPoint\Core\Reference;
 
 class PassportReference implements Reference
 {
-    public PassportRepository $repository;
+    private PassportRepository $repository;
     private array $users;
 
-    function __construct()
+    function __construct(PassportRepository $repository)
     {
-        $this->repository = new Repository();
+        $this->repository = $repository;
     }
 
     function filter()
@@ -42,7 +42,7 @@ class PassportReference implements Reference
         $this->informUsers(new Message($this, $record, "upadte"));
     }
 
-    function search($сondition, $page, $pageSize)
+    function search($сondition, $page, $pageSize): array
     {
         
     }
@@ -52,5 +52,10 @@ class PassportReference implements Reference
         foreach ($this->users as &$user) {
             $user = "message";
         }
+    }
+
+    public function getById($id): PassportRecord
+    {
+        return $this->repository->getById($id);
     }
 }

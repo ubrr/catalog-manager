@@ -5,22 +5,26 @@ namespace App\Controller;
 use App\Entity\PassportRecord;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use UBRR\RefPoint\PassportReference\PassportReference;
+use UBRR\RefPoint\PassportReference\PassportRecord as PassportModel;
 
 class PassportRecController extends AbstractController
 {
+    private $reference;
+
+    public function __construct(PassportReference $reference)
+    {
+        $this->reference = $reference;
+    }
+
     /**
      * @Route("api/passportrec/create", name="create_record")
      */
     public function createRecord(): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = new PassportRecord();
-        $record->setNumber('123');
-        $record->setSeries('456');
-        $entityManager->persist($record);
-        $entityManager->flush();
-        return new Response('Saved new product with id ' . $record->getId());
+        $model = new PassportModel('123', '456');
+        $this->reference->add($model);
+        return new Response('Saved new product with id ' . $model->getId());
     }
 
     /**
@@ -28,15 +32,7 @@ class PassportRecController extends AbstractController
      */
     public function getRecord($id)
     {
-        $record = $this->getDoctrine()
-            ->getRepository(PassportRecord::class)
-            ->find($id);
-
-        if (!$record) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
-        }
+        $record = $this->reference->getById($id);
 
         return new Response('Check out this great product: ' . $record->getNumber());
     }
@@ -46,20 +42,7 @@ class PassportRecController extends AbstractController
      */
     public function deleteRecord($id)
     {
-        $record = $this->getDoctrine()
-            ->getRepository(PassportRecord::class)
-            ->find($id);
-        
-
-        if (!$record) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
-        }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($record);
-        $entityManager->flush();
+        $this->reference->remove($this->reference->getById($id));
  
         return new Response('Deleted: ' . $id);
     }
