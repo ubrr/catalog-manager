@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
 
 function App() {
-  const routes = useRoutes(false);
+  const routes = useRoutes(true);
   return (
     <Router>
       <NavBar />

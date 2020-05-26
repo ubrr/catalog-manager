@@ -18,7 +18,7 @@ export const AuthPage = () => {
   const registerHandler = async () => {
     try {
       const data = await request("/api/auth/register", "POST", { ...form });
-      console.log("data=", data);
+      console.log("data=", data.data);
     } catch (error) {}
   };
   const loginHandler = async () => {
@@ -29,7 +29,7 @@ export const AuthPage = () => {
     <Box
       sx={{
         py: 3,
-        maxWidth: "50%",
+        maxWidth: "100%",
         mx: "auto",
         px: 3,
       }}

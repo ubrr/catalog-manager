@@ -3,18 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\PassportRecord;
+use App\Repository\PassportRecordRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use UBRR\RefPoint\PassportReference\PassportReference;
+// use UBRR\RefPoint\PassportReference\PassportReference;
 use UBRR\RefPoint\PassportReference\PassportRecord as PassportModel;
+use UBRR\RefPoint\PassportReference\PassportReference;
 
 class PassportRecController extends AbstractController
 {
     private $reference;
 
-    public function __construct(PassportReference $reference)
+    public function __construct(ManagerRegistry $registy)
     {
-        $this->reference = $reference;
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $this->reference = new PassportReference(new PassportRecordRepository($registy));
     }
 
     /**

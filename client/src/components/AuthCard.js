@@ -3,10 +3,7 @@ import React from "react";
 import { Button, Card, Box, Text } from "rebass";
 import { Label, Input } from "@rebass/forms";
 
-export const AuthCard = ({loginHandler,changeHandler,registerHandler}) => {
-
-
-
+export const AuthCard = ({ loginHandler, changeHandler, registerHandler }) => {
   return (
     <Box>
       <Card
@@ -14,6 +11,8 @@ export const AuthCard = ({loginHandler,changeHandler,registerHandler}) => {
           p: 1,
           borderRadius: 2,
           boxShadow: "0 0 16px rgba(0, 0, 0, .25)",
+          maxWidth: "50%",
+          mx: "auto",
         }}
       >
         <Box px={2}>

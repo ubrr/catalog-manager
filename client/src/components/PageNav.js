@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const FirstPage = () => {
+export const PageNav = () => {
     return (
         <div>
-            <h1>FIRSTPAGE</h1>
+            
         </div>
     )
 }
