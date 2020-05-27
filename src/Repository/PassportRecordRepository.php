@@ -17,6 +17,9 @@ use UBRR\RefPoint\PassportReference\PassportRecord as PassportModel;
 class PassportRecordRepository extends ServiceEntityRepository implements PassportRepository
 {
     private $mapper;
+    private $flushQty;
+    const FLUSH_LIMIT = 1000;
+    const LIST_LIMIT = 20;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -24,10 +27,16 @@ class PassportRecordRepository extends ServiceEntityRepository implements Passpo
         parent::__construct($registry, PassportRecord::class);
     }
 
+    public function __destruct()
+    {
+        $this->getEntityManager()->flush();
+    }
+
 
     public function add(PassportModel $passportRecord)
     {
         $this->getEntityManager()->persist($this->mapper->toRecord($passportRecord));
+        $this->flush();
     }
 
     public function getById($id): ?PassportModel
@@ -59,8 +68,27 @@ class PassportRecordRepository extends ServiceEntityRepository implements Passpo
         return $record ? $this->mapper->toModel($record) : null;
     }
 
-    public function getData(): array
+    public function getData(int $page, ?string $serial = null, ?string $number = null): array
     {
-        // TODO: Implement getData() method.
+
+        $dql = "SELECT u FROM App\Entity\PassportRecord";
+        $records = $this->getEntityManager()->createQuery($dql)
+            ->setFirstResult(($page - 1) * self::LIST_LIMIT)
+            ->setMaxResults(self::LIST_LIMIT)
+            ->getResult();
+        $result = [];
+        foreach ($records as $record) {
+            $result[] = $this->mapper->toModel($record);
+        }
+        return $result;
+    }
+
+    private function flush()
+    {
+        $this->flushQty ++;
+        if($this->flushQty >= self::FLUSH_LIMIT) {
+            $this->getEntityManager()->flush();
+            $this->flushQty = 0;
+        }
     }
 }

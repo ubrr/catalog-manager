@@ -22,9 +22,7 @@ class PassportReference implements Reference
 
     function add($record)
     {
-        $id=$record->getId();
-        $data=$record->getData();
-        $this->repository->add(new PassportRecord($id, $data['series'], $data['number']));
+        $this->repository->add($record->getData());
         // $this->informUsers(new Message($this, $record, "add"));
     }
 
