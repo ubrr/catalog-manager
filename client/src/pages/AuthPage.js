@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useHttp } from "../hooks/http.hook";
-
+import { useMessage } from "../hooks/message.hook";
 import { AuthCard } from "../components/AuthCard";
 import { Box } from "rebass";
 
 export const AuthPage = () => {
+
   const { request } = useHttp();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -18,7 +21,8 @@ export const AuthPage = () => {
   const registerHandler = async () => {
     try {
       const data = await request("/api/auth/register", "POST", { ...form });
-      console.log("data=", data.data);
+      console.log("data=", data.message);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
     } catch (error) {}
   };
   const loginHandler = async () => {

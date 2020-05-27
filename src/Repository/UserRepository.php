@@ -39,7 +39,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //     // returns an array of Product objects
     //     return $query->getResult();
     // }
-    public function findOneByEmail($email): ?User
+    public function findOneByEmail($email)
     {
         $entityManager = $this->getEntityManager();
 
@@ -50,7 +50,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         )->setParameter('email', $email);
 
 
-        return $query->getResult();
+        return $query->getOneOrNullResult();
 
         // return $this->createQueryBuilder('u')
         //     ->andWhere('u.email = :val')

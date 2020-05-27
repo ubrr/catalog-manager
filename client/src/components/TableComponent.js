@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box } from "rebass";
 
 import styled from "styled-components";
 
 export const TableComponent = ({ columns, data }) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [recordOnPage, setRecordOnPage] = useState(15)
+  const [recordOnPage, setRecordOnPage] = useState(15);
   let rows = [];
+
   for (
     let index = recordOnPage * (pageNumber - 1) + 1;
-    index < recordOnPage * (pageNumber - 1) + 16;
+    index < recordOnPage * (pageNumber - 1) + recordOnPage + 1;
     index++
   ) {
     if (index === data.length) {
@@ -27,12 +28,20 @@ export const TableComponent = ({ columns, data }) => {
     );
   }
 
-  const changeRecordCount=(event)=>{
-    setRecordOnPage(event.target.value)
-  }
+  const changeRecordCount = (event) => {
+    setRecordOnPage(event.target.value);
+    console.log(typeof parseInt(event.target.value))
+    
+  };
 
   const changePage = (event) => {
-    setPageNumber(event.target.value);
+    if (event.target.value!==""){
+      setPageNumber(event.target.value);
+      
+    }
+    
+    // setPageNumber(event.target.value);
+    console.log(event.target.value)
   };
   const pageNext = () => {
     if (pageNumber < Math.floor(data.length / 15) + 1) {
@@ -81,7 +90,7 @@ export const TableComponent = ({ columns, data }) => {
         <tbody style={{ textAlign: "center" }}>{rows}</tbody>
       </Table>
       <PaginationBox>
-        <Input value={recordOnPage} onChange={changeRecordCount}></Input>
+        <Input  onChange={changeRecordCount}></Input>
         <Pagination onClick={pagePrevious}>&laquo;</Pagination>
 
         <Input value={pageNumber} onChange={changePage}></Input>
