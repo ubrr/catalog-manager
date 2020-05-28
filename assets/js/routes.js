@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
+
 import { FakePassportPage } from './pages/FakePassportPage'
 import { SecondPage } from './pages/SecondPage'
 
@@ -16,8 +17,7 @@ export const useRoutes = isAuthenticated => {
                 <Route path="/second" exact>
                     <SecondPage />
                 </Route>
-                
-                <Redirect to="/fakepassport" />
+              <Redirect to="/fakepassport"/>
             </Switch>)
     }
     return (
@@ -25,7 +25,7 @@ export const useRoutes = isAuthenticated => {
             <Route path="/" exact>
                 <AuthPage />
             </Route>
-            <Redirect to="/" />
+            <Redirect to="/"/>
         </Switch>
 
     )
