@@ -10,61 +10,88 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Namshi\JOSE\JWT;
 
 class AuthController extends AbstractController
 {
     /**
      * @Route("/api/auth/register", name="auth_register")
      */
-    public function register(LoggerInterface $loger, Request $request)
+    public function register(Request $request)
     {
-        $body = json_decode($request->getContent(), true);
-        $userEmail = $body["email"];
-        $userPassword = $body["password"];
+        $reqBody = json_decode($request->getContent(), true);
+        $userEmail = $reqBody["email"];
+        $userPassword = $reqBody["password"];
         $entityManager = $this->getDoctrine()->getManager();
-        
-        $repository =  $this->getDoctrine()
+
+        $candidate =  $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneByEmail($userEmail);
 
-        // $loger->info(print_r($repository));
         $response = new Response();
-        if($repository==NULL){
+
+        if ($candidate == NULL) {
             $user = new User();
             $user->setEmail($userEmail);
             $user->setPassword($userPassword);
             $entityManager->persist($user);
             $entityManager->flush();
             $response->setContent(json_encode([
-                'message' => "Пользователь создан" 
-        ]));
-        }
-        else{
+                'message' => "Пользователь создан"
+            ]));
+        } else {
             $response->setContent(json_encode([
-                'message' => "Пользователь такой есть" 
+                'message' => "Такое имя пользователя уже есть"
             ]));
         }
-        // print_r($body);    
-        // $response->setContent(json_encode([
-        //     'data' => "1"
-        // ]));
+
         // $response->headers->set('Content-Type', 'application/json');
-        
+
         return $response;
     }
+
     /**
      * @Route("/api/auth/login", name="auth_login")
      */
-    public function login(Request $request)
+    public function login(LoggerInterface $logger,  Request $request)
     {
-        $body = json_decode($request->getContent(), true);
-        $userEmail = $body["email"];
-        $userPassword = $body["password"];
+        $reqBody = json_decode($request->getContent(), true);
+        $userEmail = $reqBody["email"];
+        $userPassword = $reqBody["password"];
         $entityManager = $this->getDoctrine()->getManager();
-        
-        $repository =  $this->getDoctrine()
+
+        $candidate =  $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneByEmail($userEmail);
-       
+
+
+        $response = new Response();
+        // $response->setContent(json_encode([
+        //     'data' => $candidate->getEmail()
+        // ]));
+        
+        if ($candidate != NULL) {
+            $token = array(
+                 "data" => array(
+                    "id" => $candidate->getId(),
+                    
+                    "email" => $candidate->getEmail()
+                )
+             );
+             $key="supersecret";
+            //  $jwt = JWT::encode($token, $key);
+            // TODO: создаю token возвращаю токен
+            $response->setContent(json_encode([
+                'userId' => $candidate->getId(),
+                'email'=> $candidate->getEmail(),
+                'token'=> "123",
+
+            ]));
+        } else {
+            $response->setContent(json_encode([
+                'message' => "Такой имя пользователь не найден"
+            ]));
+        }
+        return $response;
     }
 }
