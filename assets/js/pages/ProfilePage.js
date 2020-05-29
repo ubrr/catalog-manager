@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const SecondPage = () => {
+export const ProfilePage = () => {
     return (
         <div>
-            <h1>2PAGE</h1>
+            <h1>profile page</h1>
         </div>
     )
 }

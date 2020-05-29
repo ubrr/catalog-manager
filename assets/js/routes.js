@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
 import { FakePassportPage } from './pages/FakePassportPage'
-import { SecondPage } from './pages/SecondPage'
+import { ProfilePage } from './pages/ProfilePage'
 
 import { AuthPage } from './pages/AuthPage'
 
@@ -14,8 +14,8 @@ export const useRoutes = isAuthenticated => {
                 <Route path="/fakepassport" exact>
                     <FakePassportPage />
                 </Route>
-                <Route path="/second" exact>
-                    <SecondPage />
+                <Route path="/profile" exact>
+                    <ProfilePage />
                 </Route>
               <Redirect to="/fakepassport"/>
             </Switch>)

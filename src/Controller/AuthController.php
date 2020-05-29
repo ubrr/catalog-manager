@@ -10,7 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Namshi\JOSE\JWT;
+use \Firebase\JWT\JWT;
+
 
 class AuthController extends AbstractController
 {
@@ -71,6 +72,13 @@ class AuthController extends AbstractController
         // ]));
         
         if ($candidate != NULL) {
+            if($candidate->getPassword()!=$userPassword){
+return  $response->setContent(json_encode([
+                'message' => "Неверные данные",
+                
+            ]));
+            }
+                
             $token = array(
                  "data" => array(
                     "id" => $candidate->getId(),
@@ -78,18 +86,20 @@ class AuthController extends AbstractController
                     "email" => $candidate->getEmail()
                 )
              );
-             $key="supersecret";
-            //  $jwt = JWT::encode($token, $key);
+             $key="supersecretkey";
+             $jwt = JWT::encode($token, $key);
+            //  $decoded = JWT::decode($jwt, $key, array('HS256'));
+
             // TODO: создаю token возвращаю токен
             $response->setContent(json_encode([
                 'userId' => $candidate->getId(),
                 'email'=> $candidate->getEmail(),
-                'token'=> "123",
+                'token'=> $jwt,
 
             ]));
         } else {
             $response->setContent(json_encode([
-                'message' => "Такой имя пользователь не найден"
+                'message' => "Неверные данные"
             ]));
         }
         return $response;
