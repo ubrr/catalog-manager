@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Box } from "rebass";
 
 import styled from "styled-components";
+import { DropDown } from "./DropDown";
 
 export const TableComponent = ({ columns, data }) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [recordOnPage, setRecordOnPage] = useState(15)
+  const [recordOnPage, setRecordOnPage] = useState(15);
   let rows = [];
   for (
-    let index = recordOnPage * (pageNumber - 1) + 1;
-    index < recordOnPage * (pageNumber - 1) + 16;
+    let index = recordOnPage * (pageNumber - 1);
+    index < recordOnPage * pageNumber;
     index++
   ) {
     if (index === data.length) {
@@ -18,7 +19,7 @@ export const TableComponent = ({ columns, data }) => {
     rows.push(
       <Row key={index}>
         <Cell>
-          {index}
+          {index + 1}
           {data[index][0]}
         </Cell>
         <Cell>{data[index][1]}</Cell>
@@ -27,15 +28,16 @@ export const TableComponent = ({ columns, data }) => {
     );
   }
 
-  const changeRecordCount=(event)=>{
-    setRecordOnPage(event.target.value)
-  }
+  const changeRecordCount = (event) => {
+    setRecordOnPage(event.target.value);
+  };
 
   const changePage = (event) => {
     setPageNumber(event.target.value);
+    console.log(event.target.value);
   };
   const pageNext = () => {
-    if (pageNumber < Math.floor(data.length / 15) + 1) {
+    if (pageNumber <= Math.floor((data.length - 1) / recordOnPage) + 1) {
       setPageNumber(pageNumber + 1);
     }
   };
@@ -45,7 +47,7 @@ export const TableComponent = ({ columns, data }) => {
     }
   };
   const lastPage = () => {
-    setPageNumber(Math.floor(data.length / recordOnPage) + 1);
+    setPageNumber(Math.floor((data.length - 1) / recordOnPage) + 1);
   };
 
   return (
@@ -57,6 +59,7 @@ export const TableComponent = ({ columns, data }) => {
         boxShadow: "0 0 16px rgba(0, 0, 0, .25)",
         mx: "auto",
         maxWidth: "60%",
+        mb:400
       }}
     >
       <Table width="100%">
@@ -81,14 +84,20 @@ export const TableComponent = ({ columns, data }) => {
         <tbody style={{ textAlign: "center" }}>{rows}</tbody>
       </Table>
       <PaginationBox>
+        <DropDown/>
         <Input value={recordOnPage} onChange={changeRecordCount}></Input>
+        <Pagination onClick={()=>setPageNumber(1)}>
+          1
+        </Pagination>
         <Pagination onClick={pagePrevious}>&laquo;</Pagination>
-
-        <Input value={pageNumber} onChange={changePage}></Input>
+        <Pagination >
+          {pageNumber}
+        </Pagination>
+        
 
         <Pagination onClick={pageNext}>&raquo;</Pagination>
         <Pagination onClick={lastPage}>
-          {Math.floor(data.length / recordOnPage) + 1}
+          {Math.floor((data.length - 1) / recordOnPage) + 1}
         </Pagination>
       </PaginationBox>
     </Box>
@@ -103,6 +112,7 @@ const TableTH = styled.th`
 `;
 
 const Table = styled.table`
+
 font-family: "System-ui", Sans-Serif;
 fontWeight='bold';
 font-size: 14px;
