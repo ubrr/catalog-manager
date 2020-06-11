@@ -31,6 +31,9 @@ export const TableComponent = ({ columns, data }) => {
   const changeRecordCount = (event) => {
     setRecordOnPage(event.target.value);
   };
+  const changeRec=(number)=>{
+    setRecordOnPage(number);
+  }
 
   const changePage = (event) => {
     setPageNumber(event.target.value);
@@ -84,8 +87,8 @@ export const TableComponent = ({ columns, data }) => {
         <tbody style={{ textAlign: "center" }}>{rows}</tbody>
       </Table>
       <PaginationBox>
-        <DropDown/>
-        <Input value={recordOnPage} onChange={changeRecordCount}></Input>
+        <DropDown setRecord={changeRec} pc={recordOnPage}/>
+        
         <Pagination onClick={()=>setPageNumber(1)}>
           1
         </Pagination>

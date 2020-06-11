@@ -1,26 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 
-export const DropDown = () => {
+export const DropDown = (props) => {
 
-  const handleClick = (action) => {
-    if (!action) return;
-
-    if (this.props.onClick) this.props.onClick(action);
-  };
+  
 
   return (
-    <StyledUl>
+    
       <DropDownLi>
-        <Dropbtn onClick={() => this.handleClick("DropDown")}>DropDown</Dropbtn>
+        <Dropbtn >Записей на странице: {props.pc}</Dropbtn>
         <DropDownContent>
-          {" "}
-          <SubA onClick={() => this.handleClick("Link1")}>Link 1</SubA>
-          <SubA onClick={() => this.handleClick("Link2")}>Link 2</SubA>
-          <SubA onClick={() => this.handleClick("Link3")}>Link 3</SubA>
+          <SubA onClick={()=>props.setRecord(10)}>10</SubA>
+          <SubA onClick={()=>props.setRecord(20)}>20</SubA>
+          <SubA onClick={()=>props.setRecord(30)}>30</SubA>
         </DropDownContent>
       </DropDownLi>
-    </StyledUl>
+    
   );
 };
 
@@ -38,11 +33,15 @@ const StyledLi = styled.li`
 `;
 
 const Dropbtn = styled.div`
-  
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+margin-bottom: 10px;
+color: black;
+
+background: white;
+margin-top: 25px;
+padding: 8px 16px;
+text-decoration: none;
+transition: background-color 0.3s;
+border: 1px solid #ddd;
 `;
 
 const DropDownContent = styled.div`
@@ -56,9 +55,7 @@ const DropDownContent = styled.div`
 
 const DropDownLi = styled(StyledLi)`
   display: inline-block;
-  &:hover {
-    background-color: red;
-  }
+  
   &:hover ${DropDownContent} {
     display: block;
   }
