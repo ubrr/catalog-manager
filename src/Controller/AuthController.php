@@ -23,6 +23,7 @@ class AuthController extends AbstractController
         $reqBody = json_decode($request->getContent(), true);
         $userEmail = $reqBody["email"];
         $userPassword = $reqBody["password"];
+        $userPassword = password_hash($userPassword, PASSWORD_BCRYPT);
         $entityManager = $this->getDoctrine()->getManager();
 
         $candidate =  $this->getDoctrine()
@@ -30,7 +31,8 @@ class AuthController extends AbstractController
             ->findOneByEmail($userEmail);
 
         $response = new Response();
-
+        
+        
         if ($candidate == NULL) {
             $user = new User();
             $user->setEmail($userEmail);
@@ -45,9 +47,7 @@ class AuthController extends AbstractController
                 'message' => "Такое имя пользователя уже есть"
             ]));
         }
-
         // $response->headers->set('Content-Type', 'application/json');
-
         return $response;
     }
 
@@ -59,43 +59,35 @@ class AuthController extends AbstractController
         $reqBody = json_decode($request->getContent(), true);
         $userEmail = $reqBody["email"];
         $userPassword = $reqBody["password"];
+        $userPassword = password_hash($userPassword, PASSWORD_BCRYPT);
         $entityManager = $this->getDoctrine()->getManager();
 
         $candidate =  $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneByEmail($userEmail);
 
-
         $response = new Response();
-        // $response->setContent(json_encode([
-        //     'data' => $candidate->getEmail()
-        // ]));
-        
         if ($candidate != NULL) {
-            if($candidate->getPassword()!=$userPassword){
-return  $response->setContent(json_encode([
-                'message' => "Неверные данные",
-                
-            ]));
+            if (password_verify($candidate->getPassword(), $userPassword)) {
+                return  $response->setContent(json_encode([
+                    'message' => "Неверные данные",
+
+                ]));
             }
-                
             $token = array(
-                 "data" => array(
+                "data" => array(
                     "id" => $candidate->getId(),
-                    
+
                     "email" => $candidate->getEmail()
                 )
-             );
-             $key="supersecretkey";
-             $jwt = JWT::encode($token, $key);
+            );
+            $key = "supersecretkey";
+            $jwt = JWT::encode($token, $key);
             //  $decoded = JWT::decode($jwt, $key, array('HS256'));
-
-            // TODO: создаю token возвращаю токен
             $response->setContent(json_encode([
                 'userId' => $candidate->getId(),
-                'email'=> $candidate->getEmail(),
-                'token'=> $jwt,
-
+                'email' => $candidate->getEmail(),
+                'token' => $jwt,
             ]));
         } else {
             $response->setContent(json_encode([

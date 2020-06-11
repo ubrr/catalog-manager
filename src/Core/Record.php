@@ -4,14 +4,14 @@ namespace UBRR\RefPoint\Core;
 
 class Record
 {
-    private string $id = '';
-    private array $data = array();
-    function __construct(string $id, array $data)
+    private ?string $id = '';
+    private $data;
+    function __construct($data, string $id = null)
     {
         $this->id = $id;
         $this->data = $data;
     }
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }

@@ -9,5 +9,5 @@ interface PassportRepository
     public function update(PassportRecord $passportRecord);
     public function searchBySeriesAndNumber(string $series,string $number);
     public function getById($id): ?PassportRecord;
-    public function getData():array;
+    public function getData(int $page, ?string $serial = null, ?string $number = null):array;
 }
