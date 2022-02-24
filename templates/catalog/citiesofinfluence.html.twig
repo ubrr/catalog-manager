@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Города влияния{% endblock %}
+
+{% block body %}
+<h2>{{catalog.getCityname()}}</h2>
+{% if catalog %}
+<table>
+<thead>
+<tr>
+<th>Города</th>
+</tr>
+</thead>
+<tbody>
+{% for catalog in catalog %}
+<tr>
+<td>{{ catalog }}</td>
+<td>
+<a href="/catalog/1" class="btn-btn-dark">Показать информацию</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>Не найдено каталогов для отображения</p>
+{% endif %}
+{% endblock %}
