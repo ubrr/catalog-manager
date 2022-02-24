@@ -10,20 +10,14 @@ use App\Entity\Citiesofinfluence;
 
 class CitiesofinfluenceController extends AbstractController {
     /**
-     * @Route("/catalog/citiesofinfluence/{name}")
+     * @Route("/catalog/citiesofinfluence/")
      * @Method({"GET"})
      */
-    public function indexAction($name) {
+    public function indexAction() {
         // return new Response
         ('<html><body>Hi</body></html>');
 
-        $doctrine = $this->getDoctrine();
-
-        $catalog = new Citiesofinfluence();
-        $catalog->setCityname($name);
-
-        $doctrine->getManager()->persist($catalog);
-        $doctrine->getManager()->flush();
+    
         $catalog= ['Catalog 1', 'Catalog 2'];
 
         return $this->render('catalog/citiesofinfluence.html.twig', array ('catalog' => $catalog));
